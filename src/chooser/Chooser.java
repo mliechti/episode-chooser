@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.apache.commons.csv.CSVFormat;
@@ -45,11 +48,22 @@ public class Chooser {
 		try {
 			csvURL = new URL("http://epguides.com/common/exportToCSV.asp?rage=18411");
 			CSVParser parser = CSVParser.parse(csvURL, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+			ArrayList<String> episodeList = new ArrayList<String>();
 			for (CSVRecord csvRecord : parser) {
 				if (csvRecord.size() > 5) {
-					System.out.println(csvRecord.get(SEASON) + " - " + csvRecord.get(EPISODE) + " - " + csvRecord.get(NAME));
+					String epString = csvRecord.get(SEASON) + " - " + csvRecord.get(EPISODE) + " - " + csvRecord.get(NAME);
+					System.out.println(epString);
+					episodeList.add(epString);
 				}
 			}
+			System.out.println("ep list size: " + episodeList.size());
+			System.out.println("ep list data: " + episodeList.toString());
+			Random randomGen = new Random();
+			int randomInt = randomGen.nextInt(episodeList.size());
+			System.out.println("random #: " + randomInt);
+			System.out.println("Your random episode: " + episodeList.get(randomInt));
+			
+
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
