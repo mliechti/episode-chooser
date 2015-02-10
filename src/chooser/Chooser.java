@@ -47,6 +47,17 @@ public class Chooser {
 		
 	}
 	
+	// see if the candidate string roughly matches the base string
+	public Boolean matchStrings(String base, String candidate) {
+		if (base.toLowerCase().equals(candidate.toLowerCase())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
 	// find the url where the csv will be located
 	// we look this up on epguides.com http://epguides.com/common/allshows.txt
 	// and find the tvrage id (3rd column) to construct the proper url
@@ -58,7 +69,7 @@ public class Chooser {
 			allShowsURL = new URL(Chooser.ALL_SHOWS_URL);
 			CSVParser parser = CSVParser.parse(allShowsURL, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
 			for (CSVRecord csvRecord : parser) {
-				if (csvRecord.get(ALL_EPISODE_NAME_COL).equals(tvSeries)) {
+				if (matchStrings(csvRecord.get(ALL_EPISODE_NAME_COL), tvSeries)) {
 					System.out.println("Found show id for " + tvSeries + ": " + 
 				csvRecord.get(ALL_EPISODE_RAGE_ID));
 					CSVLocationURL = EP_BASE_URL + csvRecord.get(ALL_EPISODE_RAGE_ID);
